@@ -1,4 +1,56 @@
 
+
+circle {
+    r: 5;
+    stroke-width: 2.5;
+    fill-opacity:0.05;
+    stroke-opacity:.2;
+}
+
+.hidden {
+    display:none;
+    stroke-opacity:0;
+    fill-opacity:0;
+}
+
+circle.start {
+    stroke:green;
+    fill:green;
+}
+
+circle.end {
+    stroke:red;
+    fill:red;
+}
+
+text.axistitle {
+
+    font-weight:bold;
+}
+
+text.demo {
+    font-size:12px;
+    opacity:1;
+    transform:translate(10,-12);
+    text-align:left;
+    transition: opacity 1000ms;
+}
+
+circle.dissertation.highlit {
+    r: 10;
+    fill-opacity:1;
+    stroke-opacity:1;
+    transition: r 500ms, fill-opacity 500ms;
+}
+
+
+
+line.dissertation {
+    stroke:black;
+    stroke-width: 2;
+    stroke-opacity: .1;
+}
+
 .container {
   width: 890px;
 }
