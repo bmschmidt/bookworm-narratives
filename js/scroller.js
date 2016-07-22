@@ -5,6 +5,8 @@
  * the user is currently scrolled
  * to.
  *
+ * By Jim Vallandingham
+ *
  */
 function scroller() {
   var windowHeight;

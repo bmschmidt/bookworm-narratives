@@ -1,0 +1,412 @@
+[
+    {"title": "Introduction",
+     "text": "I'm fleshing out a narrative scroll interface for the D3 bookworm interface. One problem with purely exploratory data interfaces is that they make it too hard to tell a story that consists of more than one chart. The D3 bookworm has nice transitions that make distinctions easy to see. So let's explore some of the differences between the texts contributed by various libraries to the Hathi Trust. Scroll down (or up) to read."
+    },
+
+    {"title": "",
+     "text": "While this one focuses on libraries, the general question here is: what are the public domain books in the Hathi Trust? What books got scanned? Hathi's collection overlaps significantly with Google Books (although many Google partners are not in Hathi, and many Hathi texts were scanned by other sources). So asking what's in Hathi is also important simply for understanding what parts of our public heritage have been scanned.",
+     "call":"bookworm",
+     "API_call":{}
+    },
+    {"title": "Public Domain Hathi's major contributors.",
+     "text": "The Hathi Trust is a consortium of libraries; each contributes its own scanned volumes to the full collections. These scanned collections (created by the libraries themselves, Google, the Internet archive, and other scanners) can differ greatly from library to library. Here are the top 20 library contributors to Hathi. I don't know what all of these are yet; nrlf and inrlf, though, are different subcollections from the University of California and iloc is the Library of Congress. Keep in mind that this is, for now, only *public domain* books. And that 'contributor' means the library that gave a particular scan to Hathi; in the event that many different libraries hold the same book, usually only one or two will be the 'contributor' to Hathi. So it might be Cornell, say, that a 1922 edition of 'The Age of Innocence,' while Harvard's copy goes unscanned.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library__id": {
+                 "$lte": 20
+             }
+         },
+         "aesthetic": {
+             "y": "contributing_library",
+             "x": "TextCount"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    },
+    {"title": "",
+     "text": "This is, obviously, not a list of the largest libraries in the country, let alone the world. Since the Library of Congress has only engaged in relatively small-bore scanning efforts, it appears much smaller than it should be. Major public libraries like Boston are basically missing. And huge private libraries like Harvard only allowed Google to scan books from before 1922 (more on this below), so they are less represented than they could be.",
+     "call":"bookworm",
+     "API_call":{}
+    },
+
+    {"title": "Contributors of books with LC Classes",
+     "text": "I'm going to be looking here at different *subject matters* in particular. More than half the books in Hathi don't have a Library of Congress classification, which is the most reliable subject description in the Hathi catalog. When you restrict to only books classified under the LC classification, the contributing library complexion shifts. Much of Harvard uses one of their idiosyncratic systems; the University of California moves into the overall lead. You might be surprised to see that the New York Public Library, which doesn't use the LC classification, has so many LC classed books; that's because their books have been linked to MARC records at other libraries that *do* use the LCC.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "lc_classes": {
+                 "$ne": ["unknown"]
+             },
+             "contributing_library__id": {
+                 "$lte": 20
+             }
+         },
+         "aesthetic": {
+             "y": "contributing_library",
+             "x": "TextCount"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    },
+    {"title": "Overall LC breakdown",
+     "text": "The most important distinction between libraries is going to be in the *kinds* of information that they collect. The chart to the right shows the number of books in the entire Hathi Trust public domain bookworm, divided by LC class. The most common classes overall are language and literature (P), followed by world history (D), the social sciences (H), and science (Q).",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "lc_classes": {
+                 "$ne": ["unknown"]
+             }
+         },
+         "aesthetic": {
+             "y": "lc_classes",
+             "x": "TextCount"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    },
+    {"title": "University of California contributors.",
+     "text": "The largest single contributor to the LC-classed, public domain Hathi library is the University of California. It has the same top four holdings, but varies on a number of other fronts; it has considerably more music (M) and political science (J), but a lot less law.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library": ["nrlf","inrlf","srlf","isrlf"],
+             "lc_classes": {
+                 "$ne": ["unknown"]
+             }
+         },
+         "aesthetic": {
+             "y": "lc_classes",
+             "x": "TextCount"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    },
+    {"title": "University of Michigan holdings",
+     "text": "The University of Michigan volumes are quite different. Law is the most common single classification; the social sciences, too, are more common than literature in the Michigan-scanned volumes.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library": ["University of Michigan"],
+             "lc_classes": {
+                 "$ne": ["unknown"]
+             }
+         },
+         "aesthetic": {
+             "y": "lc_classes",
+             "x": "TextCount"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    },
+    {"title": "Harvard University holdings",
+     "text": "Harvard, on the other hand, is where Google went to find books about philosophy, psychology, and religion.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library": ["Harvard University"],
+             "lc_classes": {
+                 "$ne": ["unknown"]
+             }
+         },
+         "aesthetic": {
+             "y": "lc_classes",
+             "x": "TextCount"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    }
+    ,
+    {
+        "title": "Library of Congress contributions",
+        "text": "The Library of Congress's contributions are dominated by language and literature and the three history classes. There are so many history books, in part, because the LOC files documents of historic interest under E and F.",
+        "call":"bookworm",
+        "API_call":
+        {
+            "database": "hathipd",
+            "plotType": "barchart",
+            "method": "return_json",
+            "search_limits": {
+                "contributing_library": ["iloc"],
+                "lc_classes": {
+                    "$ne": ["unknown"]
+                }
+            },
+            "aesthetic": {
+                "y": "lc_classes",
+                "x": "TextCount"
+            },
+            "counttype": ["TextCount"],
+            "groups": ["lc_classes"],
+            "scaleType": "linear"
+        }
+    }
+    ,
+
+    {"title": "Average Book length in History classes",
+     "text": "As a brief digression: this distinction is clear if you look, for instances, at the average length of history books contributed by the Library of Congress. This chart shows the average number of words per book in the various history classes. In all other libraries, history books average between one and two hundred thousand words; from the Library of Congress, they average just 70,000.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "lc_classes": [
+                 "History of America","History of the United States and British, Dutch, French, and Latin America",
+                 "General and Old World History"
+             ],
+             "contributing_library__id":{"$lte":15}
+         },
+         "aesthetic": {
+             "y": "contributing_library",
+             "x": "TextLength"
+         },
+         "scaleType": "linear"
+     }
+    }
+    ,
+
+    {"title": "Average Book length in all classes",
+     "text": "The difference in book lengths across different libraries is quite striking overall. In addition to library collecting patterns, you can see differences in *scanners* here; isrlf and inrlf are UC books scanned by the Internet Archive, while nrlf are books scanned by Google. `iloc` are Library of Congress books scanned by the Internet Archive as well; clearly, Google was willing to scan larger books. The longest average books belong to Cornell, the only library to run its own major scanning endeavor.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "barchart",
+         "method": "return_json",
+         "search_limits": {
+             "lc_classes": [         ],
+             "contributing_library__id":{"$lte":15}
+         },
+         "aesthetic": {
+             "y": "contributing_library",
+             "x": "TextLength"
+         },
+         "scaleType": "linear"
+     }
+    }
+    ,
+    {
+        "title": "Library of Congress contributions geographically",
+        "text": "You can see this in the places where books are published, as well. I've geotagged many places of publication; here are the locations for books contributed by the Library of Congress. They're pretty well scattered across the country.",
+        "call":"bookworm",
+        "API_call":
+        {
+            "database": "hathipd",
+            "plotType": "map",
+            "projection":"USA",
+            "method": "return_json",
+            "search_limits": {
+                "contributing_library": ["iloc"],
+                "publication_place_countryName":["United States"]
+            },
+            "aesthetic": {
+                "point": "publication_place_geo",
+                "size": "TextCount",
+                "label": "publication_place_toponymName"
+            },
+            "counttype": ["TextCount"],
+            "groups": ["lc_classes"],
+            "scaleType": "linear"
+        }
+    }
+    ,
+    {"title": "University of California contributions geographically",
+     "text": "Compare this to the University of California libraries. (You may want to scroll up an back a few times to see the differences here). New York City is the largest contributor to both; while the major California cities (obviously) contribute more to the UC libraries. What's really interesting, though, is how many more *small* dots there are for the LOC; the midwest is just a few major cities from the perspective of California, but whole array of little dots for the Library of Congress. The exceptions that prove the rule are university towns like Ann Arbor and Lansing in Michigan.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "map",
+         "projection":"USA",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library": ["nrlf","inrlf","srlf","isrlf"],
+             "publication_place_countryName":["United States"]
+         },
+         "aesthetic": {
+             "point": "publication_place_geo",
+             "size": "TextCount",
+             "label": "publication_place_toponymName"
+         },
+         "counttype": ["TextCount"],
+         "groups": ["lc_classes"],
+         "scaleType": "linear"
+     }
+    }
+    ,
+    {"title": "Comparison of LOC and California",
+     "text": "Here's that comparison in a single map. Orange-tinted locations are those that are mostly represented by UC in the corpus; purple-tinted ones are mostly represented by LOC. As you can see, the large circles are mostly orange.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "map",
+         "projection": "USA",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library": ["iloc"],
+             "publication_place_countryName": ["United States"]
+         },
+         "compare_limits": {
+             "contributing_library": ["nrlf","srlf"],
+             "publication_place_countryName": ["United States"]
+         },
+         "aesthetic": {
+             "point": "publication_place_geo",
+             "color": "TextRatio",
+             "size": "SumTexts",
+             "label": "publication_place_toponymName"
+         }
+
+     }
+    }
+    ,
+    {"title": "Temporal distribution",
+     "text": "Other key differences between libraries are the *years* that books were published in. Here you can see the four largest libraries in the collection, by date. The copyright cutoff, in 1922, stands out as the most important barrier (Harvard and the NYPL did not allow Google to scan hardly any post-1922 books, while Michigan and California did). But there are other trends at play as well. NYPL contributes more *early* books to the collection than any other source.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "linechart",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library__id": [1, 2, 3, 4],
+             "new_date": {
+                 "$gte": 1800,
+                 "$lte": 2000
+             }
+         },
+         "aesthetic": {
+             "x": "*new_date",
+             "y": "TextCount",
+             "color": "contributing_library"
+         }
+     }
+    }
+    ,
+    {"title":"",
+     "text":"I have no idea why Harvard falls off so sharply in this set after 1900; that's not something that appears in Google Ngrams, based on the same scans. And while some of the dips in the state library collections are real--for instance, the drop in books collected during World War I--others, like the gap in the 1960s in Michigan books, are surely due to some collections bias patterns I don't yet understand."}
+    ,
+    {"title": "Normalized Temporal distribution",
+     "text": "Normalizing these temporal distributions lets us look at *percents* rather than raw numbers. This may be useful for comparing library to library. But the charts quickly get over-crowded, so let's end with a heatmap instead.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "linechart",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library__id": [1, 2, 3, 4,5,6],
+             "new_date": {
+                 "$gte": 1800,
+                 "$lte": 2000
+             }
+         },
+         "aesthetic": {
+             "x": "*new_date",
+             "y": "TextPercent",
+             "color": "contributing_library"
+         }
+     }
+    }
+    ,
+    {"title": "Normalized Temporal distribution",
+     "text": "Here's a heatmap showing a *library-normalized* set of bands for what percentage of books are published in each year, like the linechart above. The red and yellow areas show where that library's collections are particularly strong; the green areas where they have fewer holdings. While most libraries peak around 1922, others (like the Universidad Complutense de Madrid) peak much earlier, and the bulges in post-1922 holdings are very sporadic.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "heatmap",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library__id": {
+                 "$lte": 25
+             },
+             "new_date": {
+                 "$gte": 1800,
+                 "$lte": 2015
+             }
+         },
+         "scaleType": "linear",
+         "aesthetic": {
+             "x": "*new_date",
+             "color": "TextPercent",
+             "y": "contributing_library"
+         },
+         "counttype": ["TextPercent"],
+         "groups": ["*new_date", "contributing_library"]
+     }
+    },
+    {"title": "Normalized Temporal distribution for literature only, 1800-1922",
+     "text": "And these patterns can continue all down the line. Here, for instance, are the library predilections for language and literature books only (LC class P). While the University of Chicago was a pretty normal library in the chart above, with most of its books coming from between 1900 and 1920, the literature collections that Hathi contains are much more irregular. Chicago seems to have have had almost no literature scanned after about 1870.",
+     "call":"bookworm",
+     "API_call":
+     {
+         "database": "hathipd",
+         "plotType": "heatmap",
+         "method": "return_json",
+         "search_limits": {
+             "contributing_library__id": {
+                 "$lte": 20
+             },"contributing_library":{"$ne":["Universidad Complutense de Madrid"]},
+             "lc_classes":["Language and Literature"],
+             "new_date": {
+                 "$gte": 1800,
+                 "$lte": 1922
+             }
+         },
+         "scaleType": "linear",
+         "aesthetic": {
+             "x": "*new_date",
+             "color": "TextPercent",
+             "y": "contributing_library"
+         },
+         "counttype": ["TextPercent"],
+         "groups": ["*new_date", "contributing_library"]
+     }
+    }
+    , {"title":"Conclusions",
+       "text": "All of these patterns matter for how we use Hathi--and by association, anything with scanned books--to investigate intellectual history or literary history questions. It's now becoming possible to see the shapes of these massive digital libraries, but we still have only a dim understanding of the bureaucratic processes that have shaped the mass of what we now use for basic bibliographic research. Doing so, I'm convinced, is going to take further efforts to make visualization possible, and to allow people who know the contours of textual collections to use it to tell stories as well as make charts."
+      }
+    , {"title":"",
+       "text": "The next thing I'll probably look at with this interface is years of publication; in particular, some of the differences in publication dates between different methods of using MARC records. Many of the Hathi search tools use poorly dated records, I think. But let me know if you have some other questions you think need addressing."
+      }
+]
